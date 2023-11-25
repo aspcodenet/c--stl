@@ -36,6 +36,19 @@ private:
 //1, rbegin
 
 
+// Functor object
+struct PriceFilter{
+    PriceFilter(int minPrice):minPrice(minPrice){
+    }
+    bool operator()(Movie const &m){
+        return m.getPrice() < minPrice;
+    }
+private:
+    int minPrice;
+};
+
+
+
 
 int main(){
     std::vector<Movie> greatMovies{
@@ -46,20 +59,34 @@ int main(){
        Movie("Young Rock",2021,Movie::MovieType::MovieType_Tv,82),
     };
 
-    //int price = 90;
-    // I want to list all movies costing less than price
 
+    //std::cin >> price;
+    // I want to list all movies costing less than price
+    PriceFilter priceFilter(90);
     auto i = std::begin(greatMovies),end = std::end(greatMovies);
     while(i != end){
-        i = std::find_if(i,end,[](auto const &m){
-            return m.getPrice() < 90;
-        });
+        i = std::find_if(i,end,priceFilter);
         // hello
         if(i != end){
             std::cout << i->getName() << std::endl;
             i++;
         }
-    }
+    }    
+
+    // int price = 90;
+    // //std::cin >> price;
+    // // I want to list all movies costing less than price
+    // auto i = std::begin(greatMovies),end = std::end(greatMovies);
+    // while(i != end){
+    //     i = std::find_if(i,end,[price](auto const &m){
+    //         return m.getPrice() < price;
+    //     });
+    //     // hello
+    //     if(i != end){
+    //         std::cout << i->getName() << std::endl;
+    //         i++;
+    //     }
+    // }
 
 
 
